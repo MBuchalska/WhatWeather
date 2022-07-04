@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="229.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.martabuchalska.controller.MainPageController">
+   <children>
+      <Button layoutX="203.0" layoutY="179.0" mnemonicParsing="false" onAction="#getCityButton" prefHeight="26.0" prefWidth="105.0" text="Get City">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Label layoutX="85.0" layoutY="97.0" prefHeight="26.0" prefWidth="105.0" text="Initial City">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="344.0" layoutY="97.0" prefHeight="26.0" prefWidth="105.0" text="Destination City">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="183.0" layoutY="14.0" text="WhatWeather">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label layoutX="137.0" layoutY="57.0" text="Check the weather wherever you go">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="errorLabel" layoutX="73.0" layoutY="220.0" prefHeight="26.0" prefWidth="64.0">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="initialCityText" layoutX="34.0" layoutY="123.0" prefHeight="25.0" prefWidth="177.0" />
+      <TextField fx:id="destinationCityText" layoutX="308.0" layoutY="123.0" prefHeight="25.0" prefWidth="177.0" />
+   </children>
+</AnchorPane>
