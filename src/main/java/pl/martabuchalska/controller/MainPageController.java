@@ -23,5 +23,6 @@ public class MainPageController extends BaseController {
     @FXML
     void getCityButton() {
 // sprawdzić czy uzupełniono napisy; pobrać co jest napisane, przepuścić przez Api, wyświetlić wyniki w nowym widoku jako listy radio
+        System.out.println("Klik");
     }
 }

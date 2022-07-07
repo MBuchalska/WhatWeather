@@ -24,6 +24,7 @@ public class ViewFactory {
 
     private void initializeStage(BaseController controller){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller.getFxmlName()));
+        System.out.println(controller.getFxmlName());
         fxmlLoader.setController(controller);
 
         Parent parent;
@@ -38,6 +39,6 @@ public class ViewFactory {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
-        activeStages.add(stage);
+        //activeStages.add(stage);
     }
 }

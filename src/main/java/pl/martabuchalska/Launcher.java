@@ -12,7 +12,7 @@ import java.io.*;
 public class Launcher extends Application {
     public static void main(String[] args) throws IOException {
         System.out.println("Hello World!");
-
+        launch(args);
     }
 
     @Override
