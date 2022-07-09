@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="229.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="229.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="203.0" layoutY="179.0" mnemonicParsing="false" onAction="#getCityButton" prefHeight="26.0" prefWidth="105.0" text="Get City">
+      <Button layoutX="211.0" layoutY="179.0" mnemonicParsing="false" onAction="#getCityButton" prefHeight="26.0" prefWidth="105.0" text="Get City">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -16,7 +16,7 @@
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="344.0" layoutY="97.0" prefHeight="26.0" prefWidth="105.0" text="Destination City">
+      <Label layoutX="355.0" layoutY="97.0" prefHeight="26.0" prefWidth="105.0" text="Destination City">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -30,12 +30,12 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <Label fx:id="errorLabel" layoutX="73.0" layoutY="220.0" prefHeight="26.0" prefWidth="64.0">
+      <Label fx:id="errorLabel" layoutX="73.0" layoutY="220.0" prefHeight="26.0" prefWidth="404.0">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
       <TextField fx:id="initialCityText" layoutX="34.0" layoutY="123.0" prefHeight="25.0" prefWidth="177.0" />
-      <TextField fx:id="destinationCityText" layoutX="308.0" layoutY="123.0" prefHeight="25.0" prefWidth="177.0" />
+      <TextField fx:id="destinationCityText" layoutX="319.0" layoutY="123.0" prefHeight="25.0" prefWidth="177.0" />
    </children>
 </AnchorPane>
