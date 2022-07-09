@@ -4,9 +4,10 @@ module WhatWeather {
 
     requires javafx.fxml;
     requires javafx.controls;
+    requires com.google.gson;
 
-    opens pl.martabuchalska.controller to javafx.fxml, javafx.controls;
-    opens pl.martabuchalska.view to javafx.fxml, javafx.controls;
-    opens pl.martabuchalska.model to javafx.fxml, javafx.controls;
+    opens pl.martabuchalska.controller to javafx.fxml, javafx.controls, com.google.gson;
+    opens pl.martabuchalska.view to javafx.fxml, javafx.controls, com.google.gson;
+    opens pl.martabuchalska.model to javafx.fxml, javafx.controls, com.google.gson;
 
 }

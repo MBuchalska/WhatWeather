@@ -3,9 +3,13 @@ package pl.martabuchalska.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import pl.martabuchalska.model.Client.RealWeatherClient;
+import pl.martabuchalska.model.Client.WeatherClient;
 import pl.martabuchalska.model.Weather;
 import pl.martabuchalska.model.WeatherService;
 import pl.martabuchalska.view.ViewFactory;
+
+import java.io.IOException;
 
 public class MainPageController extends BaseController {
 
@@ -17,18 +21,16 @@ public class MainPageController extends BaseController {
     @FXML
     private Label errorLabel;
 
-    private WeatherService weatherService;
+    private WeatherService weatherService = new WeatherService(new RealWeatherClient());
 
     public MainPageController(ViewFactory viewFactory, String fxmlName) {
         super(viewFactory, fxmlName);
     }
 
     @FXML
-    void getCityButton() {
-// sprawdzić czy uzupełniono napisy; pobrać co jest napisane, przepuścić przez Api, wyświetlić wyniki w nowym widoku jako listy radio
-        System.out.println(initialCityText.getText());
-        System.out.println(destinationCityText.getText());
-        System.out.println("Klik");
+    void getCityButton() throws IOException {
+
+        System.out.println("Processing your cities");
 
         if((initialCityText.getText().isEmpty()) && (destinationCityText.getText().isEmpty())){
             errorLabel.setText("Both city names are missing");
@@ -38,14 +40,14 @@ public class MainPageController extends BaseController {
             errorLabel.setText("Destination city name is missing");
         }
         else{
-            System.out.println("Pienknie");
+            System.out.println("Checking weather for your cities");
             String initialCityName = initialCityText.getText();
             String destinationCityName = destinationCityText.getText();
 
             Weather initialCityWeather = weatherService.getWeather(initialCityName);
            // Weather destinationCityWeather = weatherService.getWeather(destinationCityName);
 
-            // display weather displayWeather(weather, weather2);
+            // display weather displayWeather(initialCityWeather, destinationCityWeather);
         }
     }
 
