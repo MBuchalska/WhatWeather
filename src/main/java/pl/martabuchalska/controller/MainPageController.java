@@ -52,6 +52,6 @@ public class MainPageController extends BaseController {
     }
 
 //    private void displayWeather(weather, weather2){
-//        // wywołać widok view factory już całościowy
+//        // wywołać widok view factory już całościowy, wywołać kontroler do nowej strony i przypisać mu odpowiednie wartości pól
 //    }
 }

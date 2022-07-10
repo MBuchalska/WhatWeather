@@ -2,10 +2,21 @@ package pl.martabuchalska.model;
 
 public class Weather {
     // tu parametry pogody, przechowuje dane
-    public Double temp;
-    public Double pressure;
-    public int humidity;
-    public int rain;
-    public int snow;
+    private CityData cityData;
 
+    private WeatherData weatherData;
+    // forecastData
+
+    public Weather(CityData cityData, WeatherData weatherData) {
+        this.cityData = cityData;
+        this.weatherData = weatherData;
+    }
+
+    public CityData getCityData() {
+        return cityData;
+    }
+
+    public WeatherData getWeatherData() {
+        return weatherData;
+    }
 }
