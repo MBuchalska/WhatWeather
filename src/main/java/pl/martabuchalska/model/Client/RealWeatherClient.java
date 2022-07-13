@@ -1,14 +1,14 @@
 package pl.martabuchalska.model.Client;
 
 import com.google.gson.Gson;
-import pl.martabuchalska.model.CityData;
-import pl.martabuchalska.model.Config;
-import pl.martabuchalska.model.Weather;
-import pl.martabuchalska.model.WeatherData;
+import pl.martabuchalska.model.*;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class RealWeatherClient implements WeatherClient {
@@ -21,7 +21,7 @@ public class RealWeatherClient implements WeatherClient {
     public Weather getWeather(String cityName) throws IOException {
 
         // get city data
-        String webPageForCity = "http://api.openweathermap.org/geo/1.0/direct?q="+cityName+"&limit=1&appid="+apiKey;
+        String webPageForCity = "http://api.openweathermap.org/geo/1.0/direct?q="+cityName+"&limit=1&appid="+Config.API_KEY;
         URL url = new URL(webPageForCity);
 
         CityData cityData = getCityCoordinates(url, cityName);
@@ -29,17 +29,72 @@ public class RealWeatherClient implements WeatherClient {
         double cityLon = cityData.lon;
 
         //get weather data having city coordinates
-        String webPageForWeather = "https://api.openweathermap.org/data/2.5/weather?lat="+cityLat+"&lon="+cityLon+"&appid="+apiKey;
+        String webPageForWeather = "https://api.openweathermap.org/data/2.5/weather?lat="+cityLat+"&lon="+cityLon+"&appid="+Config.API_KEY;
         URL url1 = new URL(webPageForWeather);
         WeatherData weatherData = getWeatherData(url1);
 
         //get weather forecast
+        String webPageForForecast = "https://api.openweathermap.org/data/2.5/forecast?lat="+cityLat+"&lon="+cityLon+"&appid="+Config.API_KEY;
+        URL url2 = new URL(webPageForForecast);
+        ForecastData forecastData = getForecastData(url2);
+
+
         // tworzymy nowy obiekt Weather z danymi które tu znaleźliśmy i zwracamy do
         // main page controller które przekazuje do wyświetlania innemu kontrolerowi
 
-        Weather weather = new Weather(cityData, weatherData);
+        Weather weather = new Weather(cityData, weatherData, forecastData);
 
         return null; // returns weather to display
+    }
+
+    private ForecastData getForecastData(URL url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.connect();
+
+        int response = conn.getResponseCode();
+
+        if (response==200){
+            String inline = "";
+            Scanner scanner = new Scanner(url.openStream());
+
+            while (scanner.hasNext()) {
+                inline += scanner.nextLine();
+            }
+            scanner.close();
+            
+            if (inline.isEmpty()) {
+                return null;
+            }
+            else {
+                ArrayList<ForecastData> forecastDataList= new ArrayList<ForecastData>();
+                Gson gson = new Gson();
+                AdditionalData additionalData = gson.fromJson(inline, AdditionalData.class);
+                
+                for(int i=0; i<5; i++){
+                    String listItem = gson.toJson(additionalData.list.get(i));
+
+                    AdditionalData additionalData1 = gson.fromJson(listItem, AdditionalData.class);
+                    String dt = gson.toJson(additionalData1.dt);
+                    String weather = gson.toJson(additionalData1.weather);
+                    String mainData = gson.toJson(additionalData1.main);
+
+                    String finalString = "{\"dt\":" + dt + "," + mainData.substring(1, mainData.length() - 1) + "," + weather.substring(2, weather.length() - 1);
+
+                    ForecastData forecastData = gson.fromJson(finalString, ForecastData.class);
+
+                    forecastDataList.add(forecastData);
+                }
+//
+//
+                // zrobić z tego tablicę i to będzie zwracane; potem poprawić resztę
+                return null; //forecast data array chyba że się nie da
+            }
+        }
+        else {
+            System.out.println("API server is not responding. Try again.");
+            return null;
+        }
     }
 
     private WeatherData getWeatherData(URL url) throws IOException {
@@ -128,4 +183,7 @@ public class RealWeatherClient implements WeatherClient {
 class AdditionalData{
     public Object main;
     public Object weather;
+    public ArrayList<Object> list;
+    public Integer dt;
 }
+
