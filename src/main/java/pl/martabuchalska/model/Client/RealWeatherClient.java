@@ -36,18 +36,22 @@ public class RealWeatherClient implements WeatherClient {
         //get weather forecast
         String webPageForForecast = "https://api.openweathermap.org/data/2.5/forecast?lat="+cityLat+"&lon="+cityLon+"&appid="+Config.API_KEY;
         URL url2 = new URL(webPageForForecast);
-        ForecastData forecastData = getForecastData(url2);
+        ArrayList<ForecastData> forecastData = getForecastData(url2);
+
+        System.out.println(forecastData.get(1).temp);
+
+        ForecastData forecastData1 = new ForecastData(); // to do wywalenia
 
 
         // tworzymy nowy obiekt Weather z danymi które tu znaleźliśmy i zwracamy do
         // main page controller które przekazuje do wyświetlania innemu kontrolerowi
 
-        Weather weather = new Weather(cityData, weatherData, forecastData);
+        Weather weather = new Weather(cityData, weatherData, forecastData1); // zmienić w klasie pogodowej na ArrayList
 
         return null; // returns weather to display
     }
 
-    private ForecastData getForecastData(URL url) throws IOException {
+    private ArrayList<ForecastData> getForecastData(URL url) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.connect();
@@ -86,9 +90,7 @@ public class RealWeatherClient implements WeatherClient {
                     forecastDataList.add(forecastData);
                 }
 //
-//
-                // zrobić z tego tablicę i to będzie zwracane; potem poprawić resztę
-                return null; //forecast data array chyba że się nie da
+                return forecastDataList; //forecast data array chyba że się nie da
             }
         }
         else {
