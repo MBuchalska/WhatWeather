@@ -45,7 +45,7 @@ public class MainPageController extends BaseController {
             String destinationCityName = destinationCityText.getText();
 
             Weather initialCityWeather = weatherService.getWeather(initialCityName);
-           // Weather destinationCityWeather = weatherService.getWeather(destinationCityName);
+            Weather destinationCityWeather = weatherService.getWeather(destinationCityName);
 
             // display weather displayWeather(initialCityWeather, destinationCityWeather);
         }

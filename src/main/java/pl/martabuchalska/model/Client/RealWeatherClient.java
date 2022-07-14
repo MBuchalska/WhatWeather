@@ -4,18 +4,14 @@ import com.google.gson.Gson;
 import pl.martabuchalska.model.*;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class RealWeatherClient implements WeatherClient {
 
     // this class gets weather data from the rest of the model
-    Weather weather;
-    String apiKey = Config.API_KEY;
 
     @Override
     public Weather getWeather(String cityName) throws IOException {
@@ -38,17 +34,9 @@ public class RealWeatherClient implements WeatherClient {
         URL url2 = new URL(webPageForForecast);
         ArrayList<ForecastData> forecastData = getForecastData(url2);
 
-        System.out.println(forecastData.get(1).temp);
+        Weather weather = new Weather(cityData, weatherData, forecastData);
 
-        ForecastData forecastData1 = new ForecastData(); // to do wywalenia
-
-
-        // tworzymy nowy obiekt Weather z danymi które tu znaleźliśmy i zwracamy do
-        // main page controller które przekazuje do wyświetlania innemu kontrolerowi
-
-        Weather weather = new Weather(cityData, weatherData, forecastData1); // zmienić w klasie pogodowej na ArrayList
-
-        return null; // returns weather to display
+        return weather; // returns weather to display
     }
 
     private ArrayList<ForecastData> getForecastData(URL url) throws IOException {
@@ -75,7 +63,7 @@ public class RealWeatherClient implements WeatherClient {
                 Gson gson = new Gson();
                 AdditionalData additionalData = gson.fromJson(inline, AdditionalData.class);
                 
-                for(int i=0; i<5; i++){
+                for(int i=0; i<40; i++){
                     String listItem = gson.toJson(additionalData.list.get(i));
 
                     AdditionalData additionalData1 = gson.fromJson(listItem, AdditionalData.class);
@@ -90,7 +78,7 @@ public class RealWeatherClient implements WeatherClient {
                     forecastDataList.add(forecastData);
                 }
 //
-                return forecastDataList; //forecast data array chyba że się nie da
+                return forecastDataList;
             }
         }
         else {

@@ -1,15 +1,18 @@
 package pl.martabuchalska.model;
 
+import java.util.ArrayList;
+
 public class Weather {
-    // tu parametry pogody, przechowuje dane
+
     private CityData cityData;
 
     private WeatherData weatherData;
 
-    private  ForecastData forecastData;
+    private ArrayList<ForecastData> forecastData;
     // forecastData
 
-    public Weather(CityData cityData, WeatherData weatherData, ForecastData forecastData) {
+
+    public Weather(CityData cityData, WeatherData weatherData, ArrayList<ForecastData> forecastData) {
         this.cityData = cityData;
         this.weatherData = weatherData;
         this.forecastData = forecastData;
@@ -23,7 +26,8 @@ public class Weather {
         return weatherData;
     }
 
-    public ForecastData getForecastData() {
+    public ArrayList<ForecastData> getForecastData() {
         return forecastData;
     }
 }
+
