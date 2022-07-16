@@ -22,6 +22,12 @@ public class ViewFactory {
         mainViewInitialized = true;
         }
 
+    public void showWeatherDisplayPage(){
+        System.out.println("Showing weather display window");
+        BaseController controller = new MainPageController(this, "WeatherDisplayView.fxml");
+        initializeStage(controller);
+        mainViewInitialized = true;
+    }
     private void initializeStage(BaseController controller){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller.getFxmlName()));
         fxmlLoader.setController(controller);

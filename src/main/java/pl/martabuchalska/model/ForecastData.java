@@ -7,5 +7,6 @@ public class ForecastData {
     public double temp;
     public double pressure;
     public int humidity;
+    public String icon;
 
 }
