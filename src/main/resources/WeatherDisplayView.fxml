@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="712.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Line endX="203.0" endY="488.0" layoutX="140.0" layoutY="-301.0" startX="203.0" startY="1012.5" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="186.5" />
+      <Label layoutX="134.0" layoutY="54.0" prefHeight="17.0" prefWidth="71.0" text="Today is">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="dateToday" layoutX="205.0" layoutY="54.0" prefHeight="27.0" prefWidth="481.0" text="Enter Date here">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Group fx:id="groupInitialToday" layoutX="1.0" layoutY="94.0">
+         <children>
+            <Label layoutX="17.0" layoutY="27.0" prefHeight="27.0" prefWidth="125.0" text="weather today:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="descriptionInitialToday" layoutX="17.0" layoutY="53.0" prefHeight="27.0" prefWidth="312.0" text="description">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="tempInitialToday" layoutX="86.0" layoutY="77.0" prefHeight="27.0" prefWidth="254.0" text="temperature: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="pressureInitialToday" layoutX="86.0" layoutY="101.0" prefHeight="27.0" prefWidth="254.0" text="pressure: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="humidityInitialToday" layoutX="86.0" layoutY="128.0" prefHeight="27.0" prefWidth="254.0" text="humidity: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imageInitialToday" fitHeight="76.0" fitWidth="83.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Group>
+      <Label fx:id="initialCityNameExtended" layoutX="19.0" layoutY="94.0" text="Initial City, Country, state, ">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="destinationCityNameExtended" layoutX="381.0" layoutY="94.0" text="Destination City, Country, state, ">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <Label layoutX="288.0" layoutY="14.0" text="WhatWeather">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Label>
+      <Group fx:id="groupDestinationToday" layoutX="354.0" layoutY="121.0">
+         <children>
+            <Label layoutX="29.0" prefHeight="27.0" prefWidth="125.0" text="weather today:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="descriptionDestinationToday" layoutX="26.0" layoutY="28.0" prefHeight="27.0" prefWidth="312.0" text="description">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="tempDestinationToday" layoutX="92.0" layoutY="52.0" prefHeight="27.0" prefWidth="254.0" text="temperature: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="pressureDestinationToday" layoutX="92.0" layoutY="76.0" prefHeight="27.0" prefWidth="254.0" text="pressure: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="humidityDestinationToday" layoutX="92.0" layoutY="100.0" prefHeight="27.0" prefWidth="254.0" text="humidity: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imageDestinationToday" fitHeight="76.0" fitWidth="83.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Group>
+      <ListView fx:id="listTableTest" layoutX="127.0" layoutY="249.0" prefHeight="128.0" prefWidth="207.0" />
+      <ImageView fx:id="imageInitialToday1" fitHeight="105.0" fitWidth="103.0" layoutX="19.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import pl.martabuchalska.model.Client.RealWeatherClient;
-import pl.martabuchalska.model.Client.WeatherClient;
 import pl.martabuchalska.model.Weather;
 import pl.martabuchalska.model.WeatherService;
 import pl.martabuchalska.view.ViewFactory;
@@ -47,11 +46,18 @@ public class MainPageController extends BaseController {
             Weather initialCityWeather = weatherService.getWeather(initialCityName);
             Weather destinationCityWeather = weatherService.getWeather(destinationCityName);
 
-            // display weather displayWeather(initialCityWeather, destinationCityWeather);
+            Settings settings = new Settings();
+            settings.setInitialCityWeather(initialCityWeather);
+            settings.setDestinationCityWeather(destinationCityWeather);
+
+            displayWeather();
+
         }
     }
 
-//    private void displayWeather(weather, weather2){
-//        // wywołać widok view factory już całościowy, wywołać kontroler do nowej strony i przypisać mu odpowiednie wartości pól
-//    }
+    private void displayWeather(){
+        ViewFactory viewFactory = new ViewFactory();
+        viewFactory.showWeatherDisplayPage();
+    }
+
 }
