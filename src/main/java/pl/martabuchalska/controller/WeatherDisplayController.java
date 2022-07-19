@@ -1,15 +1,19 @@
 package pl.martabuchalska.controller;
 
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import pl.martabuchalska.model.Weather;
 import pl.martabuchalska.view.ViewFactory;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class WeatherDisplayController extends BaseController implements Initializable {
@@ -27,7 +31,7 @@ public class WeatherDisplayController extends BaseController implements Initiali
     @FXML
     private Label initialCityNameExtended;
 
-    // labels only
+    // weather labels
 
     @FXML
     private Label descriptionDestinationToday;
@@ -65,13 +69,11 @@ public class WeatherDisplayController extends BaseController implements Initiali
     @FXML
     private Label tempInitialToday;
 
-
-// with list view
+    // HBox for forecast
     @FXML
-    private ImageView imageInitialToday1;
+    private HBox initialForecast;
 
-    @FXML
-    private ListView<String> listTableTest;
+
 
 
     @Override
@@ -80,10 +82,44 @@ public class WeatherDisplayController extends BaseController implements Initiali
         Weather initialCityWeather = settings.getInitialCityWeather();
         Weather destinationCityWeather = settings.getDestinationCityWeather();
 
-        System.out.println("11111");
-        System.out.println(initialCityNameExtended.getText());
-        System.out.println(initialCityWeather.getCityData().name);
-        System.out.println(destinationCityWeather.getWeatherData().temp);
+        //data for main view
+        LocalDate dateForToday = LocalDate.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMMM-yyyy");
+        String formattedDate = dateForToday.format(myFormatObj);
+        dateToday.setText(formattedDate);
+
+        //city names, country
+        String initialCity = initialCityWeather.getCityData().name + ", "+initialCityWeather.getCityData().country;
+        String destinationCity = destinationCityWeather.getCityData().name+ ", "+destinationCityWeather.getCityData().country;
+        initialCityNameExtended.setText(initialCity);
+        destinationCityNameExtended.setText(destinationCity);
+
+        //pack image icon from url
+        String imageSource = "http://openweathermap.org/img/wn/"+initialCityWeather.getWeatherData().icon+"@2x.png";
+        imageInitialToday.setImage(new Image(imageSource));
+
+        String imageSource1 = "http://openweathermap.org/img/wn/"+destinationCityWeather.getWeatherData().icon+"@2x.png";
+        imageDestinationToday.setImage(new Image(imageSource1));
+
+        // weather data display
+        String initialDescription = initialCityWeather.getWeatherData().main+", " + initialCityWeather.getWeatherData().description;
+        descriptionInitialToday.setText(initialDescription);
+        double temp1 = (Math.round((initialCityWeather.getWeatherData().temp-272.15)*100))/100;
+        tempInitialToday.setText("temperature: "+String.valueOf(temp1) +" C");
+        pressureInitialToday.setText("pressure: "+String.valueOf(initialCityWeather.getWeatherData().pressure)+" hPa");
+        humidityInitialToday.setText("humidity: "+String.valueOf(initialCityWeather.getWeatherData().humidity)+"%");
+
+
+        String destinationDescription = destinationCityWeather.getWeatherData().main+", "+ destinationCityWeather.getWeatherData().description;
+        descriptionDestinationToday.setText(destinationDescription);
+        double temp2 = (Math.round((destinationCityWeather.getWeatherData().temp-272.15)*100))/100;
+        tempDestinationToday.setText("temperature: "+String.valueOf(temp2)+" C");
+        pressureDestinationToday.setText("pressure: "+String.valueOf(destinationCityWeather.getWeatherData().pressure)+" hPa");
+        humidityDestinationToday.setText("humidity: "+String.valueOf(destinationCityWeather.getWeatherData().humidity)+"%");
+
+        // forecast display in HBox with separate view
+
+        // jeśli to się uda przepicać upychanie pogody w grupkę
     }
 
 
