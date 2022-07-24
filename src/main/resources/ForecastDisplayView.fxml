@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="forecastView" prefHeight="103.0" prefWidth="278.0" style="-fx-background-color: #ffe6e6;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="forecastDate" layoutX="30.0" layoutY="8.0" prefHeight="27.0" prefWidth="125.0" text="date: ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="forecastDescription" layoutX="29.0" layoutY="36.0" prefHeight="27.0" prefWidth="312.0" text="description">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="tempForecast" layoutX="100.0" layoutY="60.0" prefHeight="27.0" prefWidth="254.0" text="temperature: ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="pressureForecast" layoutX="100.0" layoutY="84.0" prefHeight="27.0" prefWidth="254.0" text="pressure: ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="humidityForecast" layoutX="100.0" layoutY="108.0" prefHeight="27.0" prefWidth="254.0" text="humidity: ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="imageWeather" fitHeight="76.0" fitWidth="83.0" layoutX="8.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

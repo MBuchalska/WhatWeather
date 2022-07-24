@@ -4,13 +4,17 @@ package pl.martabuchalska.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import pl.martabuchalska.model.ForecastData;
 import pl.martabuchalska.model.Weather;
 import pl.martabuchalska.view.ViewFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -69,9 +73,13 @@ public class WeatherDisplayController extends BaseController implements Initiali
     @FXML
     private Label tempInitialToday;
 
-    // HBox for forecast
+    // VBox for forecast
+
     @FXML
-    private HBox initialForecast;
+    private VBox initialForecastBox;
+
+    @FXML
+    private VBox destinationForecastBox;
 
 
 
@@ -117,9 +125,35 @@ public class WeatherDisplayController extends BaseController implements Initiali
         pressureDestinationToday.setText("pressure: "+String.valueOf(destinationCityWeather.getWeatherData().pressure)+" hPa");
         humidityDestinationToday.setText("humidity: "+String.valueOf(destinationCityWeather.getWeatherData().humidity)+"%");
 
-        // forecast display in HBox with separate view
+        // forecast display in VBox with separate view
+        // jeśli to się uda przepisać upychanie pogody w grupkę
+        ForecastData forecastData1 = initialCityWeather.getForecastData().get(0); //temporary
+        try {
+            populateInitialForecastBox(forecastData1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        // jeśli to się uda przepicać upychanie pogody w grupkę
+    private void populateInitialForecastBox(ForecastData forecastData) throws IOException {
+
+        ViewFactory viewFactory = new ViewFactory();
+        ForecastDisplayController forecastDisplayController = new ForecastDisplayController(viewFactory, "ForecastDisplayView.fxml");
+        forecastDisplayController.setForecastData(forecastData);
+        forecastDisplayController.getTrainingFunciton(); // works fine
+
+        for(int i=0; i<5;i++) {
+            forecastDisplayController.setPracticeString("a");
+            forecastDisplayController.getTrainingFunciton(); //works fine
+            Parent parent = viewFactory.showForecastDisplay();
+            initialForecastBox.getChildren().add(parent);
+        }
+
+        for(int i=0; i<5;i++) {
+             Parent parent = viewFactory.showForecastDisplay();
+            destinationForecastBox.getChildren().add(parent);
+        }
+
     }
 
 

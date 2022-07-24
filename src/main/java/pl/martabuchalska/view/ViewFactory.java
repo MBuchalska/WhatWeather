@@ -5,8 +5,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import pl.martabuchalska.controller.BaseController;
+import pl.martabuchalska.controller.ForecastDisplayController;
 import pl.martabuchalska.controller.MainPageController;
 import pl.martabuchalska.controller.WeatherDisplayController;
+import pl.martabuchalska.model.ForecastData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +32,21 @@ public class ViewFactory {
         mainViewInitialized = true;
         //close previous window
     }
+
+
+
+
+    public Parent showForecastDisplay() throws IOException {
+        BaseController controller = new ForecastDisplayController(this, "ForecastDisplayView.fxml");
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller.getFxmlName()));
+
+
+        Parent parent;
+        parent = fxmlLoader.load();
+        return parent;
+    }
+
     private void initializeStage(BaseController controller){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller.getFxmlName()));
         fxmlLoader.setController(controller);
