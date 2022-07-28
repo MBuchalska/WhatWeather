@@ -33,22 +33,19 @@ public class ViewFactory {
         //close previous window
     }
 
-
-
-
-    public Parent showForecastDisplay() throws IOException {
-        BaseController controller = new ForecastDisplayController(this, "ForecastDisplayView.fxml");
-
+    public Parent showForecastDisplay(ForecastData forecastData) throws IOException {
+        ForecastDisplayController controller = new ForecastDisplayController(null, "ForecastDisplayView.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller.getFxmlName()));
-
+        controller.setForecastData(forecastData);
+        fxmlLoader.setController(controller);
 
         Parent parent;
         parent = fxmlLoader.load();
         return parent;
     }
 
-    private void initializeStage(BaseController controller){
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller.getFxmlName()));
+    private static void initializeStage(BaseController controller){
+        FXMLLoader fxmlLoader = new FXMLLoader(ViewFactory.class.getResource(controller.getFxmlName()));
         fxmlLoader.setController(controller);
 
         Parent parent;

@@ -1,15 +1,17 @@
 package pl.martabuchalska.controller;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import pl.martabuchalska.model.ForecastData;
 import pl.martabuchalska.view.ViewFactory;
 
 import java.net.URL;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ForecastDisplayController extends BaseController implements Initializable{
@@ -33,11 +35,8 @@ public class ForecastDisplayController extends BaseController implements Initial
     @FXML
     private Label pressureForecast;
 
-    private String practiceString;
-
     @FXML
     private Label tempForecast;
-
 
 
 
@@ -45,22 +44,28 @@ public class ForecastDisplayController extends BaseController implements Initial
         this.forecastData = forecastData;
     }
 
-    public void setPracticeString(String practiceString) {
-        this.practiceString = practiceString;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("inicjalizacja");
-        tempForecast.setText(practiceString);
-        System.out.println(forecastData.pressure);
+
+        //date for each forecast
+        Date date = new Date(forecastData.dt*1000);
+        Format format = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss");
+        String formattedDate = format.format(date);
+        forecastDate.setText(formattedDate);
+
+        //image
+        String imageSource = "http://openweathermap.org/img/wn/"+forecastData.icon+"@2x.png";
+        imageWeather.setImage(new Image(imageSource));
+
+        // weather data display
+        String description = forecastData.main + ", " + forecastData.description;
+        forecastDescription.setText(description);
+        double temp = (Math.round((forecastData.temp-272.15)*100))/100;
+        tempForecast.setText("temperature: "+String.valueOf(temp) +" C");
+        pressureForecast.setText("pressure: "+String.valueOf(forecastData.pressure)+" hPa");
+        humidityForecast.setText("humidity: "+String.valueOf(forecastData.humidity)+"%");
 
     }
 
-
-    public void getTrainingFunciton() {
-        System.out.println(forecastData.pressure);
-        System.out.println(practiceString);
-      //  tempForecast.setText(practiceString);
-    }
 }

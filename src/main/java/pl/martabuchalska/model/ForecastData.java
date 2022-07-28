@@ -1,7 +1,7 @@
 package pl.martabuchalska.model;
 
 public class ForecastData {
-    public Integer dt;  // timestamp, check for conversion
+    public long dt;  // timestamp, check for conversion
     public String main;
     public String description;
     public double temp;
