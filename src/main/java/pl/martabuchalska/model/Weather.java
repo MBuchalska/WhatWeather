@@ -9,7 +9,6 @@ public class Weather {
     private WeatherData weatherData;
 
     private ArrayList<ForecastData> forecastData;
-    // forecastData
 
 
     public Weather(CityData cityData, WeatherData weatherData, ArrayList<ForecastData> forecastData) {

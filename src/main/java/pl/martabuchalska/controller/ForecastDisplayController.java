@@ -48,24 +48,34 @@ public class ForecastDisplayController extends BaseController implements Initial
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //date for each forecast
-        Date date = new Date(forecastData.dt*1000);
-        Format format = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss");
-        String formattedDate = format.format(date);
-        forecastDate.setText(formattedDate);
+        setForecastDate();
+        setWeatherIcon();
+        setWeatherDescription();
+        setNumericalWeatherData();
+    }
 
-        //image
-        String imageSource = "http://openweathermap.org/img/wn/"+forecastData.icon+"@2x.png";
-        imageWeather.setImage(new Image(imageSource));
-
-        // weather data display
-        String description = forecastData.main + ", " + forecastData.description;
-        forecastDescription.setText(description);
+    private void setNumericalWeatherData() {
         double temp = (Math.round((forecastData.temp-272.15)*100))/100;
         tempForecast.setText("temperature: "+String.valueOf(temp) +" C");
         pressureForecast.setText("pressure: "+String.valueOf(forecastData.pressure)+" hPa");
         humidityForecast.setText("humidity: "+String.valueOf(forecastData.humidity)+"%");
+    }
 
+    private void setWeatherDescription() {
+        String description = forecastData.main + ", " + forecastData.description;
+        forecastDescription.setText(description);
+    }
+
+    private void setWeatherIcon() {
+        String imageSource = "http://openweathermap.org/img/wn/"+forecastData.icon+"@2x.png";
+        imageWeather.setImage(new Image(imageSource));
+    }
+
+    private void setForecastDate() {
+        Date date = new Date(forecastData.dt*1000);
+        Format format = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss");
+        String formattedDate = format.format(date);
+        forecastDate.setText(formattedDate);
     }
 
 }

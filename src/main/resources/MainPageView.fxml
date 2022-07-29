@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="229.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="263.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button layoutX="211.0" layoutY="179.0" mnemonicParsing="false" onAction="#getCityButton" prefHeight="26.0" prefWidth="105.0" text="Get City">
          <font>
@@ -22,7 +22,7 @@
          </font></Label>
       <Label layoutX="183.0" layoutY="14.0" text="WhatWeather">
          <font>
-            <Font size="29.0" />
+            <Font name="System Bold" size="29.0" />
          </font>
       </Label>
       <Label layoutX="137.0" layoutY="57.0" text="Check the weather wherever you go">
@@ -30,9 +30,9 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <Label fx:id="errorLabel" layoutX="73.0" layoutY="220.0" prefHeight="26.0" prefWidth="404.0">
+      <Label fx:id="errorLabel" contentDisplay="CENTER" layoutX="73.0" layoutY="220.0" prefHeight="26.0" prefWidth="404.0" textFill="RED">
          <font>
-            <Font size="17.0" />
+            <Font name="System Bold" size="17.0" />
          </font>
       </Label>
       <TextField fx:id="initialCityText" layoutX="34.0" layoutY="123.0" prefHeight="25.0" prefWidth="177.0" />

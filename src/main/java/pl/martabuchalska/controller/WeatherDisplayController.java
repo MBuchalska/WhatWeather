@@ -87,26 +87,27 @@ public class WeatherDisplayController extends BaseController implements Initiali
         Weather initialCityWeather = settings.getInitialCityWeather();
         Weather destinationCityWeather = settings.getDestinationCityWeather();
 
-        //data for main view
-        LocalDate dateForToday = LocalDate.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMMM-yyyy");
-        String formattedDate = dateForToday.format(myFormatObj);
-        dateToday.setText(formattedDate);
+        setLocalDate();
+        setCityNames(initialCityWeather, destinationCityWeather);
+        setWeatherIconImages(initialCityWeather, destinationCityWeather);
+        setWeatherNumericalData(initialCityWeather, destinationCityWeather);
 
-        //city names, country
-        String initialCity = initialCityWeather.getCityData().name + ", "+initialCityWeather.getCityData().country;
-        String destinationCity = destinationCityWeather.getCityData().name+ ", "+destinationCityWeather.getCityData().country;
-        initialCityNameExtended.setText(initialCity);
-        destinationCityNameExtended.setText(destinationCity);
+        // forecast display in VBox with separate view
+        for(int i=4; i<40; i++) // forecast for 2 p.m.
+        {
+            ForecastData forecastData = initialCityWeather.getForecastData().get(i);
+            ForecastData forecastData1 = destinationCityWeather.getForecastData().get(i);
+            try {
+                populateInitialForecastBox(forecastData);
+                populateDestinationForecastBox(forecastData1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            i+=7;
+        }
+    }
 
-        //pack image icon from url
-        String imageSource = "http://openweathermap.org/img/wn/"+initialCityWeather.getWeatherData().icon+"@2x.png";
-        imageInitialToday.setImage(new Image(imageSource));
-
-        String imageSource1 = "http://openweathermap.org/img/wn/"+destinationCityWeather.getWeatherData().icon+"@2x.png";
-        imageDestinationToday.setImage(new Image(imageSource1));
-
-        // weather data display
+    private void setWeatherNumericalData(Weather initialCityWeather, Weather destinationCityWeather) {
         String initialDescription = initialCityWeather.getWeatherData().main+", " + initialCityWeather.getWeatherData().description;
         descriptionInitialToday.setText(initialDescription);
         double temp1 = (Math.round((initialCityWeather.getWeatherData().temp-272.15)*100))/100;
@@ -121,20 +122,28 @@ public class WeatherDisplayController extends BaseController implements Initiali
         tempDestinationToday.setText("temperature: "+String.valueOf(temp2)+" C");
         pressureDestinationToday.setText("pressure: "+String.valueOf(destinationCityWeather.getWeatherData().pressure)+" hPa");
         humidityDestinationToday.setText("humidity: "+String.valueOf(destinationCityWeather.getWeatherData().humidity)+"%");
+    }
 
-        // forecast display in VBox with separate view
-        for(int i=7; i<40; i++)
-        {
-            ForecastData forecastData = initialCityWeather.getForecastData().get(i);
-            ForecastData forecastData1 = destinationCityWeather.getForecastData().get(i);
-            try {
-                populateInitialForecastBox(forecastData);
-                populateDestinationForecastBox(forecastData1);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            i+=7;
-        }
+    private void setWeatherIconImages(Weather initialCityWeather, Weather destinationCityWeather) {
+        String imageSource = "http://openweathermap.org/img/wn/"+ initialCityWeather.getWeatherData().icon+"@2x.png";
+        imageInitialToday.setImage(new Image(imageSource));
+
+        String imageSource1 = "http://openweathermap.org/img/wn/"+ destinationCityWeather.getWeatherData().icon+"@2x.png";
+        imageDestinationToday.setImage(new Image(imageSource1));
+    }
+
+    private void setCityNames(Weather initialCityWeather, Weather destinationCityWeather) {
+        String initialCity = initialCityWeather.getCityData().name + ", "+ initialCityWeather.getCityData().country;
+        String destinationCity = destinationCityWeather.getCityData().name+ ", "+ destinationCityWeather.getCityData().country;
+        initialCityNameExtended.setText(initialCity);
+        destinationCityNameExtended.setText(destinationCity);
+    }
+
+    private void setLocalDate() {
+        LocalDate dateForToday = LocalDate.now();
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMMM-yyyy");
+        String formattedDate = dateForToday.format(myFormatObj);
+        dateToday.setText(formattedDate);
     }
 
     private void populateDestinationForecastBox(ForecastData forecastData) throws IOException {
