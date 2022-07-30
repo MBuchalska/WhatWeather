@@ -46,12 +46,21 @@ public class MainPageController extends BaseController {
             Weather initialCityWeather = weatherService.getWeather(initialCityName);
             Weather destinationCityWeather = weatherService.getWeather(destinationCityName);
 
-            Settings settings = new Settings();
-            settings.setInitialCityWeather(initialCityWeather);
-            settings.setDestinationCityWeather(destinationCityWeather);
 
-            displayWeather();
+            if ((initialCityWeather.getCityData().name == null)&&(destinationCityWeather.getCityData().name == null)){
+                errorLabel.setText("Cities are not in the database");
+            } else if (initialCityWeather.getCityData().name == null) {
+                errorLabel.setText("Initial city is not in the database");
+            } else if (destinationCityWeather.getCityData().name == null) {
+                errorLabel.setText("Destination city is not in the database");
+            }
+            else {
+                Settings settings = new Settings();
+                settings.setInitialCityWeather(initialCityWeather);
+                settings.setDestinationCityWeather(destinationCityWeather);
 
+                displayWeather();
+            }
         }
     }
 

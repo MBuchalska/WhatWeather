@@ -138,9 +138,10 @@ public class RealWeatherClient implements WeatherClient {
         if (response==200){
             String jsonString = getJsonStringFromUrl(url);
 
-            if (jsonString=="") {
+            if (jsonString.isEmpty()) {
                 System.out.println("City "+cityName+" was not found in the database");
-                return null;
+                CityData cityData = new CityData();
+                return cityData;
             }
             else {
                 Gson gson = new Gson();

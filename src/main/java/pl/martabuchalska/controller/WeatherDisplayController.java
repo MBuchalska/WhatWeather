@@ -93,7 +93,7 @@ public class WeatherDisplayController extends BaseController implements Initiali
         setWeatherNumericalData(initialCityWeather, destinationCityWeather);
 
         // forecast display in VBox with separate view
-        for(int i=4; i<40; i++) // forecast for 2 p.m.
+        for(int i=7; i<40; i++) // first forecast after about 24 h
         {
             ForecastData forecastData = initialCityWeather.getForecastData().get(i);
             ForecastData forecastData1 = destinationCityWeather.getForecastData().get(i);
