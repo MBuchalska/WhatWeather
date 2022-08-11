@@ -1,4 +1,4 @@
-package pl.martabuchalska.model.Client;
+package pl.martabuchalska.model.client;
 
 import com.google.gson.Gson;
 import pl.martabuchalska.model.*;
@@ -17,7 +17,7 @@ public class RealWeatherClient implements WeatherClient {
     public Weather getWeather(String cityName) throws IOException {
 
         // get city data
-        String webPageForCity = "http://api.openweathermap.org/geo/1.0/direct?q="+cityName+"&limit=1&appid="+Config.API_KEY;
+        String webPageForCity = Config.WEB_PAGE_BASE+ "geo/1.0/direct?q="+cityName+"&limit=1&appid="+Config.API_KEY;
         URL url = new URL(webPageForCity);
 
         CityData cityData = getCityCoordinates(url, cityName);
@@ -25,36 +25,24 @@ public class RealWeatherClient implements WeatherClient {
         double cityLon = cityData.lon;
 
         //get weather data having city coordinates
-        String webPageForWeather = "https://api.openweathermap.org/data/2.5/weather?lat="+cityLat+"&lon="+cityLon+"&appid="+Config.API_KEY;
+        String webPageForWeather = Config.WEB_PAGE_BASE+ "data/2.5/weather?lat="+cityLat+"&lon="+cityLon+"&appid="+Config.API_KEY;
         URL url1 = new URL(webPageForWeather);
         WeatherData weatherData = getWeatherData(url1);
 
         //get weather forecast
-        String webPageForForecast = "https://api.openweathermap.org/data/2.5/forecast?lat="+cityLat+"&lon="+cityLon+"&appid="+Config.API_KEY;
+        String webPageForForecast = Config.WEB_PAGE_BASE+"data/2.5/forecast?lat="+cityLat+"&lon="+cityLon+"&appid="+Config.API_KEY;
         URL url2 = new URL(webPageForForecast);
         ArrayList<ForecastData> forecastData = getForecastData(url2);
 
-        Weather weather = new Weather(cityData, weatherData, forecastData);
-
-        return weather; // returns weather to display
+        return new Weather(cityData, weatherData, forecastData); // returns weather to display
     }
 
     private ArrayList<ForecastData> getForecastData(URL url) throws IOException {
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.connect();
-
-        int response = conn.getResponseCode();
+        int response = getResponse(url);
 
         if (response==200){
-            String inline = "";
-            Scanner scanner = new Scanner(url.openStream());
+            String inline = getStringForGson(url);
 
-            while (scanner.hasNext()) {
-                inline += scanner.nextLine();
-            }
-            scanner.close();
-            
             if (inline.isEmpty()) {
                 return null;
             }
@@ -87,21 +75,14 @@ public class RealWeatherClient implements WeatherClient {
         }
     }
 
-    private WeatherData getWeatherData(URL url) throws IOException {
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.connect();
 
-        int response = conn.getResponseCode();
+
+
+    private WeatherData getWeatherData(URL url) throws IOException {
+        int response = getResponse(url);
 
         if (response==200){
-            String inline = "";
-            Scanner scanner = new Scanner(url.openStream());
-
-            while (scanner.hasNext()) {
-                inline += scanner.nextLine();
-            }
-            scanner.close();
+            String inline = getStringForGson(url);
 
             if (inline.isEmpty()) {
                 return null;
@@ -118,8 +99,7 @@ public class RealWeatherClient implements WeatherClient {
 
                 mainData+=", "+ mainData2;
 
-                WeatherData weatherData = gson.fromJson(mainData, WeatherData.class);
-                return weatherData;
+                return gson.fromJson(mainData, WeatherData.class);
             }
         }
         else {
@@ -129,25 +109,19 @@ public class RealWeatherClient implements WeatherClient {
     }
 
     private CityData getCityCoordinates(URL url, String cityName) throws IOException {
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.connect();
-
-        int response = conn.getResponseCode();
+        int response = getResponse(url);
 
         if (response==200){
             String jsonString = getJsonStringFromUrl(url);
 
             if (jsonString.isEmpty()) {
                 System.out.println("City "+cityName+" was not found in the database");
-                CityData cityData = new CityData();
-                return cityData;
+                return new CityData();
             }
             else {
                 Gson gson = new Gson();
-                CityData cityData = gson.fromJson(jsonString, CityData.class);
 
-                return cityData;
+                return gson.fromJson(jsonString, CityData.class);
             }
         }
         else {
@@ -169,7 +143,24 @@ public class RealWeatherClient implements WeatherClient {
         return jsonString;
     }
 
+    private int getResponse(URL url) throws IOException {
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.connect();
 
+        int response = conn.getResponseCode();
+        return response;
+    }
+    private String getStringForGson(URL url) throws IOException {
+        String inline = "";
+        Scanner scanner = new Scanner(url.openStream());
+
+        while (scanner.hasNext()) {
+            inline += scanner.nextLine();
+        }
+        scanner.close();
+        return inline;
+    }
 }
 class AdditionalData{
     public Object main;

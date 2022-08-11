@@ -1,7 +1,7 @@
 package pl.martabuchalska.model;
 
-import pl.martabuchalska.model.Client.RealWeatherClient;
-import pl.martabuchalska.model.Client.WeatherClient;
+import pl.martabuchalska.model.client.RealWeatherClient;
+import pl.martabuchalska.model.client.WeatherClient;
 
 public class WeatherServiceFactory {  //allows getting object instance without the knowledge of class details
 

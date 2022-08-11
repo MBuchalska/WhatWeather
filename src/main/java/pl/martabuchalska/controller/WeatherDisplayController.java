@@ -3,7 +3,6 @@ package pl.martabuchalska.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -20,9 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class WeatherDisplayController extends BaseController implements Initializable {
-    public WeatherDisplayController(ViewFactory viewFactory, String fxmlName) {
-        super(viewFactory, fxmlName);
-    }
 
 // city data
     @FXML
@@ -41,12 +37,6 @@ public class WeatherDisplayController extends BaseController implements Initiali
 
     @FXML
     private Label descriptionInitialToday;
-
-    @FXML
-    private Group groupDestinationToday;
-
-    @FXML
-    private Group groupInitialToday;
 
     @FXML
     private Label humidityDestinationToday;
@@ -80,48 +70,55 @@ public class WeatherDisplayController extends BaseController implements Initiali
     @FXML
     private VBox destinationForecastBox;
 
+    // Weather Data from model
+    private final Weather initialCityWeather;
+    private final Weather destinationCityWeather;
+
+    public WeatherDisplayController(ViewFactory viewFactory, String fxmlName, Weather initialCityWeather, Weather destinationCityWeather) {
+        super(viewFactory, fxmlName);
+        this.initialCityWeather = initialCityWeather;
+        this.destinationCityWeather = destinationCityWeather;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Settings settings = new Settings();
-        Weather initialCityWeather = settings.getInitialCityWeather();
-        Weather destinationCityWeather = settings.getDestinationCityWeather();
 
         setLocalDate();
         setCityNames(initialCityWeather, destinationCityWeather);
         setWeatherIconImages(initialCityWeather, destinationCityWeather);
-        setWeatherNumericalData(initialCityWeather, destinationCityWeather);
+        setWeatherNumericalData();
 
         // forecast display in VBox with separate view
-        for(int i=7; i<40; i++) // first forecast after about 24 h
+
+        for(int i=Settings.FIRST_FORECAST_AFTER_ONE_DAY; i<Settings.TOTAL_NUMBER_OF_FORECAST_DATA; i++)
         {
-            ForecastData forecastData = initialCityWeather.getForecastData().get(i);
-            ForecastData forecastData1 = destinationCityWeather.getForecastData().get(i);
+            ForecastData initialForecastData = initialCityWeather.getForecastData().get(i);
+            ForecastData destinationForecastData = destinationCityWeather.getForecastData().get(i);
             try {
-                populateInitialForecastBox(forecastData);
-                populateDestinationForecastBox(forecastData1);
+                populateInitialForecastBox(initialForecastData);
+                populateDestinationForecastBox(destinationForecastData);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            i+=7;
+            i+=Settings.FORECAST_DATA_PER_DAY;
         }
     }
 
-    private void setWeatherNumericalData(Weather initialCityWeather, Weather destinationCityWeather) {
-        String initialDescription = initialCityWeather.getWeatherData().main+", " + initialCityWeather.getWeatherData().description;
+    private void setWeatherNumericalData() {
+        String initialDescription = this.initialCityWeather.getWeatherData().main+", " + this.initialCityWeather.getWeatherData().description;
         descriptionInitialToday.setText(initialDescription);
-        double temp1 = (Math.round((initialCityWeather.getWeatherData().temp-272.15)*100))/100;
-        tempInitialToday.setText("temperature: "+String.valueOf(temp1) +" C");
-        pressureInitialToday.setText("pressure: "+String.valueOf(initialCityWeather.getWeatherData().pressure)+" hPa");
-        humidityInitialToday.setText("humidity: "+String.valueOf(initialCityWeather.getWeatherData().humidity)+"%");
+        double temp1 = (Math.round((this.initialCityWeather.getWeatherData().temp-272.15)*100))/100.0;
+        tempInitialToday.setText("temperature: "+ temp1 +" C");
+        pressureInitialToday.setText("pressure: "+ this.initialCityWeather.getWeatherData().pressure +" hPa");
+        humidityInitialToday.setText("humidity: "+ this.initialCityWeather.getWeatherData().humidity +"%");
 
 
-        String destinationDescription = destinationCityWeather.getWeatherData().main+", "+ destinationCityWeather.getWeatherData().description;
+        String destinationDescription = this.destinationCityWeather.getWeatherData().main+", "+ this.destinationCityWeather.getWeatherData().description;
         descriptionDestinationToday.setText(destinationDescription);
-        double temp2 = (Math.round((destinationCityWeather.getWeatherData().temp-272.15)*100))/100;
-        tempDestinationToday.setText("temperature: "+String.valueOf(temp2)+" C");
-        pressureDestinationToday.setText("pressure: "+String.valueOf(destinationCityWeather.getWeatherData().pressure)+" hPa");
-        humidityDestinationToday.setText("humidity: "+String.valueOf(destinationCityWeather.getWeatherData().humidity)+"%");
+        double temp2 = (Math.round((this.destinationCityWeather.getWeatherData().temp-272.15)*100))/100.0;
+        tempDestinationToday.setText("temperature: "+ temp2 +" C");
+        pressureDestinationToday.setText("pressure: "+ this.destinationCityWeather.getWeatherData().pressure +" hPa");
+        humidityDestinationToday.setText("humidity: "+ this.destinationCityWeather.getWeatherData().humidity +"%");
     }
 
     private void setWeatherIconImages(Weather initialCityWeather, Weather destinationCityWeather) {
@@ -141,8 +138,8 @@ public class WeatherDisplayController extends BaseController implements Initiali
 
     private void setLocalDate() {
         LocalDate dateForToday = LocalDate.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MMMM-yyyy");
-        String formattedDate = dateForToday.format(myFormatObj);
+
+        String formattedDate = dateForToday.format(Settings.DATE_FORMAT);
         dateToday.setText(formattedDate);
     }
 

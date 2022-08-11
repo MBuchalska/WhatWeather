@@ -1,6 +1,6 @@
 package pl.martabuchalska.model;
 
-import pl.martabuchalska.model.Client.WeatherClient;
+import pl.martabuchalska.model.client.WeatherClient;
 
 import java.io.IOException;
 

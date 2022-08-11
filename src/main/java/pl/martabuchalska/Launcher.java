@@ -10,12 +10,12 @@ import java.io.*;
 
 
 public class Launcher extends Application {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         ViewFactory viewFactory = new ViewFactory();
         viewFactory.showMainPage();
     }

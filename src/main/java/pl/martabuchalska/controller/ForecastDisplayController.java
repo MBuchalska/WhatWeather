@@ -15,9 +15,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ForecastDisplayController extends BaseController implements Initializable{
-    public ForecastDisplayController(ViewFactory viewFactory, String fxmlName) {
-        super(viewFactory, fxmlName);
-    }
+
     private ForecastData forecastData;
 
     @FXML
@@ -38,7 +36,9 @@ public class ForecastDisplayController extends BaseController implements Initial
     @FXML
     private Label tempForecast;
 
-
+    public ForecastDisplayController(ViewFactory viewFactory, String fxmlName) {
+        super(viewFactory, fxmlName);
+    }
 
     public void setForecastData(ForecastData forecastData) {
         this.forecastData = forecastData;
@@ -55,10 +55,10 @@ public class ForecastDisplayController extends BaseController implements Initial
     }
 
     private void setNumericalWeatherData() {
-        double temp = (Math.round((forecastData.temp-272.15)*100))/100;
-        tempForecast.setText("temperature: "+String.valueOf(temp) +" C");
-        pressureForecast.setText("pressure: "+String.valueOf(forecastData.pressure)+" hPa");
-        humidityForecast.setText("humidity: "+String.valueOf(forecastData.humidity)+"%");
+        double temp = (Math.round((forecastData.temp-272.15)*100))/100.0;
+        tempForecast.setText("temperature: "+temp +" C");
+        pressureForecast.setText("pressure: "+ forecastData.pressure +" hPa");
+        humidityForecast.setText("humidity: "+ forecastData.humidity +"%");
     }
 
     private void setWeatherDescription() {

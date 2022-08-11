@@ -9,28 +9,20 @@ import pl.martabuchalska.controller.ForecastDisplayController;
 import pl.martabuchalska.controller.MainPageController;
 import pl.martabuchalska.controller.WeatherDisplayController;
 import pl.martabuchalska.model.ForecastData;
+import pl.martabuchalska.model.Weather;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ViewFactory {
 
-    private ArrayList<Stage> activeStages;
-    private boolean mainViewInitialized = false;
-
     public void showMainPage(){
-        System.out.println("Showing an initial window");
         BaseController controller = new MainPageController(this, "MainPageView.fxml");
         initializeStage(controller);
-        mainViewInitialized = true;
         }
 
-    public void showWeatherDisplayPage(){
-        System.out.println("Showing weather display window");
-        BaseController controller = new WeatherDisplayController(this, "WeatherDisplayView.fxml");
+    public void showWeatherDisplayPage(Weather initialCityWeather, Weather destinationCityWeather){
+        BaseController controller = new WeatherDisplayController(this, "WeatherDisplayView.fxml", initialCityWeather, destinationCityWeather);
         initializeStage(controller);
-        mainViewInitialized = true;
-        //close previous window
     }
 
     public Parent showForecastDisplay(ForecastData forecastData) throws IOException {
@@ -60,7 +52,6 @@ public class ViewFactory {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
-        //activeStages.add(stage);
     }
 
 }

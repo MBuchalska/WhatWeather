@@ -3,7 +3,7 @@ package pl.martabuchalska.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import pl.martabuchalska.model.Client.RealWeatherClient;
+import pl.martabuchalska.model.client.RealWeatherClient;
 import pl.martabuchalska.model.Weather;
 import pl.martabuchalska.model.WeatherService;
 import pl.martabuchalska.view.ViewFactory;
@@ -20,7 +20,7 @@ public class MainPageController extends BaseController {
     @FXML
     private Label errorLabel;
 
-    private WeatherService weatherService = new WeatherService(new RealWeatherClient());
+    private final WeatherService weatherService = new WeatherService(new RealWeatherClient());
 
     public MainPageController(ViewFactory viewFactory, String fxmlName) {
         super(viewFactory, fxmlName);
@@ -28,8 +28,6 @@ public class MainPageController extends BaseController {
 
     @FXML
     void getCityButton() throws IOException {
-
-        System.out.println("Processing your cities");
 
         if((initialCityText.getText().isEmpty()) && (destinationCityText.getText().isEmpty())){
             errorLabel.setText("Both city names are missing");
@@ -39,7 +37,6 @@ public class MainPageController extends BaseController {
             errorLabel.setText("Destination city name is missing");
         }
         else{
-            System.out.println("Checking weather for your cities");
             String initialCityName = initialCityText.getText();
             String destinationCityName = destinationCityText.getText();
 
@@ -55,18 +52,15 @@ public class MainPageController extends BaseController {
                 errorLabel.setText("Destination city is not in the database");
             }
             else {
-                Settings settings = new Settings();
-                settings.setInitialCityWeather(initialCityWeather);
-                settings.setDestinationCityWeather(destinationCityWeather);
-
-                displayWeather();
+//
+                displayWeather(initialCityWeather, destinationCityWeather);
             }
         }
     }
 
-    private void displayWeather(){
+    private void displayWeather(Weather initialCityWeather, Weather destinationCityWeather){
         ViewFactory viewFactory = new ViewFactory();
-        viewFactory.showWeatherDisplayPage();
+        viewFactory.showWeatherDisplayPage(initialCityWeather, destinationCityWeather);
     }
 
 }
