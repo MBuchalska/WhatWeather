@@ -1,6 +1,7 @@
 package pl.martabuchalska.model.client;
 
 import com.google.gson.Gson;
+import pl.martabuchalska.controller.Settings;
 import pl.martabuchalska.model.*;
 
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class RealWeatherClient implements WeatherClient {
                 Gson gson = new Gson();
                 AdditionalData additionalData = gson.fromJson(inline, AdditionalData.class);
                 
-                for(int i=0; i<40; i++){
+                for(int i = 0; i< Settings.TOTAL_NUMBER_OF_FORECAST_DATA; i++){
                     String listItem = gson.toJson(additionalData.list.get(i));
 
                     AdditionalData additionalData1 = gson.fromJson(listItem, AdditionalData.class);
@@ -74,8 +75,6 @@ public class RealWeatherClient implements WeatherClient {
             return null;
         }
     }
-
-
 
 
     private WeatherData getWeatherData(URL url) throws IOException {
@@ -115,7 +114,6 @@ public class RealWeatherClient implements WeatherClient {
             String jsonString = getJsonStringFromUrl(url);
 
             if (jsonString.isEmpty()) {
-                System.out.println("City "+cityName+" was not found in the database");
                 return new CityData();
             }
             else {
