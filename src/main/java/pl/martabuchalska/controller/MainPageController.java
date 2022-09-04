@@ -9,6 +9,7 @@ import pl.martabuchalska.model.WeatherService;
 import pl.martabuchalska.view.ViewFactory;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class MainPageController extends BaseController {
 
@@ -37,24 +38,27 @@ public class MainPageController extends BaseController {
             errorLabel.setText("Destination city name is missing");
         }
         else{
-            String initialCityName = initialCityText.getText();
-            String destinationCityName = destinationCityText.getText();
+            getWeatherForCities();
+        }
+    }
 
-            Weather initialCityWeather = weatherService.getWeather(initialCityName);
-            Weather destinationCityWeather = weatherService.getWeather(destinationCityName);
+    private void getWeatherForCities() throws IOException {
+        String initialCityName = initialCityText.getText();
+        String destinationCityName = destinationCityText.getText();
+
+        Weather initialCityWeather = weatherService.getWeather(initialCityName);
+        Weather destinationCityWeather = weatherService.getWeather(destinationCityName);
 
 
-            if ((initialCityWeather.getCityData().name == null)&&(destinationCityWeather.getCityData().name == null)){
-                errorLabel.setText("Cities are not in the database");
-            } else if (initialCityWeather.getCityData().name == null) {
-                errorLabel.setText("Initial city is not in the database");
-            } else if (destinationCityWeather.getCityData().name == null) {
-                errorLabel.setText("Destination city is not in the database");
-            }
-            else {
-//
-                displayWeather(initialCityWeather, destinationCityWeather);
-            }
+        if ((initialCityWeather.getCityData().name == null)&&(destinationCityWeather.getCityData().name == null)){
+            errorLabel.setText("Cities are not in the database");
+        } else if (initialCityWeather.getCityData().name == null) {
+            errorLabel.setText("Initial city is not in the database");
+        } else if (destinationCityWeather.getCityData().name == null) {
+            errorLabel.setText("Destination city is not in the database");
+        }
+        else {
+            displayWeather(initialCityWeather, destinationCityWeather);
         }
     }
 

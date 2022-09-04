@@ -22,6 +22,7 @@ public class RealWeatherClient implements WeatherClient {
         URL url = new URL(webPageForCity);
 
         CityData cityData = getCityCoordinates(url, cityName);
+
         double cityLat = cityData.lat;
         double cityLon = cityData.lon;
 
@@ -33,7 +34,8 @@ public class RealWeatherClient implements WeatherClient {
         //get weather forecast
         String webPageForForecast = Config.WEB_PAGE_BASE+"data/2.5/forecast?lat="+cityLat+"&lon="+cityLon+"&appid="+Config.API_KEY;
         URL url2 = new URL(webPageForForecast);
-        ArrayList<ForecastData> forecastData = getForecastData(url2);
+
+        ArrayList<ForecastData>  forecastData = getForecastData(url2);
 
         return new Weather(cityData, weatherData, forecastData); // returns weather to display
     }
@@ -157,6 +159,7 @@ public class RealWeatherClient implements WeatherClient {
             inline += scanner.nextLine();
         }
         scanner.close();
+
         return inline;
     }
 }

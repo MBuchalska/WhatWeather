@@ -13,6 +13,8 @@ public class WeatherService {
     }
 
     public Weather getWeather(String cityName) throws IOException {
-        return weatherClient.getWeather(cityName);
+
+            return weatherClient.getWeather(cityName);
+
     }
 }
